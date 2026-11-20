@@ -79,5 +79,37 @@
         <span>Liminolohiya</span>
         <span>Palaro Scoreboard</span>
     </footer>
+    <dialog id="video-dialog" aria-label="Video">
+        <button type="button" id="close-video" aria-label="Close video">Close</button>
+        <video id="secret-video" controls playsinline>
+            <source src="IMG_6749.mov">
+            Your browser does not support video playback.
+        </video>
+    </dialog>
+    <script>
+        (() => {
+            const phrase = 'hesoyam';
+            let typed = '';
+            const dialog = document.getElementById('video-dialog');
+            const video = document.getElementById('secret-video');
+
+            document.addEventListener('keydown', (event) => {
+                if (event.key.length !== 1) return;
+                typed = (typed + event.key.toLowerCase()).slice(-phrase.length);
+                if (typed === phrase) {
+                    dialog.showModal();
+                    video.play().catch(() => {});
+                    typed = '';
+                }
+            });
+
+            document.getElementById('close-video').addEventListener('click', () => {
+                video.pause();
+                video.currentTime = 0;
+                dialog.close();
+            });
+            dialog.addEventListener('close', () => video.pause());
+        })();
+    </script>
 </body>
 </html>
