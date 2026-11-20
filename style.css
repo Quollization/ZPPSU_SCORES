@@ -1,0 +1,804 @@
+:root {
+  /* ===== Edit these to change the whole theme ===== */
+  /* Logo palette: deep navy gear blue, steel silver, cyan glow, gold/maroon seal accents */
+  --ink: #050d24;
+  --deep: #0a1a4a;
+  --panel: rgba(16, 46, 130, 0.55);
+  --line: rgba(130, 195, 255, 0.22);
+  --primary: #1f56c9;      /* gear blue */
+  --accent: #b9d4ee;       /* brushed silver */
+  --gold: #38c6ff;         /* cyan glow */
+  --seal: #e0a528;         /* gold lettering from the seal */
+  --seal-rgb: 224, 165, 40;
+  --maroon: #8a1c24;       /* maroon seal accent */
+  --text: #eef5ff;
+  --muted: #94b0d6;
+  --active-text: var(--ink);
+  --score-muted: rgba(238, 245, 255, 0.35);
+  /* RGB triplets for translucent effects */
+  --primary-rgb: 31, 86, 201;
+  --accent-rgb: 185, 212, 238;
+  --gold-rgb: 56, 198, 255;
+  --ink-rgb: 5, 13, 36;
+  --line-rgb: 130, 195, 255;
+  --display: "Saira Extra Condensed", "Arial Narrow", sans-serif;
+  --body: "Chakra Petch", system-ui, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-family: var(--body);
+  color: var(--text);
+  background:
+    radial-gradient(1200px 600px at 85% -10%, rgba(var(--primary-rgb), 0.55), transparent 60%),
+    radial-gradient(800px 500px at -10% 110%, rgba(var(--gold-rgb), 0.18), transparent 60%),
+    radial-gradient(500px 300px at 50% 40%, rgba(var(--seal-rgb), 0.05), transparent 70%),
+    var(--ink);
+  background-attachment: fixed;
+}
+
+/* Gear-teeth grid texture */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    linear-gradient(var(--line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(ellipse at 60% 20%, #000 10%, transparent 70%);
+  opacity: 0.45;
+}
+
+body > * { position: relative; z-index: 1; }
+
+a { color: inherit; }
+
+:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+}
+
+/* ---------- Masthead ---------- */
+.masthead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px clamp(18px, 5vw, 64px);
+  border-bottom: 1px solid var(--line);
+  background: rgba(var(--ink-rgb), 0.7);
+  backdrop-filter: blur(10px);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  text-decoration: none;
+}
+
+.brand img {
+  width: 84px;
+  height: auto;
+  filter: drop-shadow(0 0 12px rgba(var(--primary-rgb), 0.5));
+}
+
+.brand-text { display: flex; flex-direction: column; line-height: 1; }
+
+.brand-kicker {
+  font-size: 0.7rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--seal);
+}
+
+.brand-title {
+  font-family: var(--display);
+  font-weight: 900;
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.live {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.75rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  border: 1px solid var(--line);
+  padding: 8px 14px;
+  border-radius: 999px;
+}
+
+.live-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--gold);
+  box-shadow: 0 0 0 0 rgba(var(--gold-rgb), 0.7);
+  animation: pulse 1.8s infinite;
+}
+
+.medal-tally {
+  width: min(100% - 36px, 760px);
+  margin: 24px auto 0;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: linear-gradient(160deg, rgba(var(--primary-rgb), 0.18), var(--panel));
+  text-align: center;
+}
+
+.medal-tally {
+  border-color: rgba(var(--accent-rgb), 0.3);
+  box-shadow: 0 0 0 1px rgba(var(--ink-rgb), 0.6) inset, 0 8px 30px rgba(var(--primary-rgb), 0.25);
+}
+
+.medal-tally h2 {
+  color: var(--seal);
+  margin: 0 0 12px;
+  font-family: var(--display);
+  font-size: 1.5rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.medal-tally-board {
+  overflow-x: auto;
+}
+
+.medal-tally-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.medal-tally-table th,
+.medal-tally-table td {
+  padding: 8px 12px;
+  border-bottom: 1px solid rgba(var(--line-rgb), 0.16);
+}
+
+.medal-tally-table thead th {
+  color: var(--muted);
+  font-family: var(--display);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.medal-tally-table tbody tr:last-child th,
+.medal-tally-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.medal-tally-table th:nth-child(2) {
+  text-align: left;
+}
+
+.medal-tally-table td {
+  font-variant-numeric: tabular-nums;
+}
+
+.medal-tally-table tbody .dept-row {
+  --dept-color: #38c6ff;
+  --dept-rgb: 56, 198, 255;
+  background:
+    linear-gradient(90deg, rgba(var(--dept-rgb), 0.13), transparent 72%),
+    rgba(var(--ink-rgb), 0.24);
+  transition: background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.medal-tally-table tbody .dept-row th,
+.medal-tally-table tbody .dept-row td {
+  border-bottom-color: rgba(var(--dept-rgb), 0.16);
+}
+
+.medal-tally-table tbody .dept-row th {
+  position: relative;
+  color: var(--text);
+  font-family: var(--display);
+  font-size: 1.05rem;
+  letter-spacing: 0.08em;
+  font-weight: 800;
+}
+
+.medal-tally-table tbody .dept-row th::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 18%;
+  bottom: 18%;
+  width: 3px;
+  border-radius: 2px;
+  background: var(--dept-color);
+  box-shadow: 0 0 8px rgba(var(--dept-rgb), 0.5);
+}
+
+.medal-tally-table tbody .dept-row:hover {
+  background:
+    linear-gradient(90deg, rgba(var(--dept-rgb), 0.22), transparent 72%),
+    rgba(var(--primary-rgb), 0.12);
+  box-shadow: inset 0 0 18px rgba(var(--dept-rgb), 0.06);
+}
+
+.medal-tally-table tbody [data-dept="cte"] { --dept-color: #b94a50; --dept-rgb: 185, 74, 80; }
+.medal-tally-table tbody [data-dept="cet"] { --dept-color: #3e83c7; --dept-rgb: 62, 131, 199; }
+.medal-tally-table tbody [data-dept="cme"] { --dept-color: #75b9e6; --dept-rgb: 117, 185, 230; }
+.medal-tally-table tbody [data-dept="cahss"] { --dept-color: #4fa276; --dept-rgb: 79, 162, 118; }
+.medal-tally-table tbody [data-dept="cics"] { --dept-color: #38aaa7; --dept-rgb: 56, 170, 167; }
+.medal-tally-table tbody [data-dept="sba"] { --dept-color: #90d7a5; --dept-rgb: 144, 215, 165; }
+.medal-tally-table tbody [data-dept="ite"] { --dept-color: #e0b94f; --dept-rgb: 224, 185, 79; }
+.medal-tally-table tbody [data-dept="shsl"] { --dept-color: #9bd0eb; --dept-rgb: 155, 208, 235; }
+.medal-tally-table tbody [data-dept="epdu"] { --dept-color: #a96ccc; --dept-rgb: 169, 108, 204; }
+.medal-tally-table tbody [data-dept="cpes"] { --dept-color: #b94a50; --dept-rgb: 185, 74, 80; }
+
+@keyframes pulse {
+  70% { box-shadow: 0 0 0 10px rgba(var(--gold-rgb), 0); }
+  100% { box-shadow: 0 0 0 0 rgba(var(--gold-rgb), 0); }
+}
+
+/* ---------- Layout ---------- */
+.page {
+  flex: 1;
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: clamp(28px, 6vw, 72px) clamp(18px, 5vw, 64px) 64px;
+}
+
+.eyebrow {
+  margin: 0 0 12px;
+  font-size: 0.8rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.section-label {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 0 0 22px;
+}
+
+.section-label::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, var(--line), transparent);
+}
+
+.hero-title {
+  margin: 0;
+  font-family: var(--display);
+  font-weight: 900;
+  font-size: clamp(3.2rem, 10vw, 7.5rem);
+  line-height: 0.86;
+  text-transform: uppercase;
+  letter-spacing: -0.005em;
+
+  /* Brushed-steel silver → cyan → gear blue, like the logo ring */
+  background: linear-gradient(
+    135deg,
+    #f4f8ff 0%,
+    var(--accent) 30%,
+    var(--gold) 62%,
+    #2a63e0 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+
+  /* thin gold outline keeps it crisp on the dark background */
+  -webkit-text-stroke: 1px rgba(var(--seal-rgb), 0.55);
+  filter: drop-shadow(0 0 20px rgba(var(--gold-rgb), 0.35));
+}
+
+.hero-title span {
+  /* keep any inner span on the same gradient */
+  background: inherit;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ---------- Department cards ---------- */
+.dept-grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+.dept-grid li {
+  opacity: 0;
+  animation: rise 0.6s cubic-bezier(.2,.7,.2,1) forwards;
+  animation-delay: calc(var(--i) * 70ms);
+}
+
+.dept-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 200px;
+  padding: 22px 22px 20px;
+  text-decoration: none;
+  background: linear-gradient(160deg, rgba(var(--primary-rgb), 0.2), var(--panel));
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  overflow: hidden;
+  clip-path: polygon(0 0, calc(100% - 22px) 0, 100% 22px, 100% 100%, 0 100%);
+  transition: transform 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+}
+
+.dept-card::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, var(--gold), var(--primary));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.35s ease;
+}
+
+.dept-card:hover,
+.dept-card:focus-visible {
+  transform: translateY(-4px);
+  border-color: rgba(var(--gold-rgb), 0.55);
+  background: linear-gradient(160deg, rgba(var(--primary-rgb), 0.38), var(--panel));
+}
+
+.dept-card:hover::after,
+.dept-card:focus-visible::after { transform: scaleX(1); }
+
+.dept-num {
+  font-family: var(--display);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--gold);
+  letter-spacing: 0.1em;
+}
+
+.dept-code {
+  margin-top: auto;
+  font-family: var(--display);
+  font-weight: 900;
+  font-size: clamp(3rem, 6vw, 4rem);
+  line-height: 0.9;
+  letter-spacing: 0.01em;
+}
+
+.dept-name {
+  margin-top: 8px;
+  font-size: 0.85rem;
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+.dept-go {
+  margin-top: 16px;
+  font-size: 0.75rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+  opacity: 0.7;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.dept-card:hover .dept-go { opacity: 1; transform: translateX(4px); }
+
+/* ---------- Department nav ---------- */
+.dept-nav {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  padding: 12px clamp(18px, 5vw, 64px);
+  border-bottom: 1px solid var(--line);
+  scrollbar-width: none;
+}
+
+.dept-nav::-webkit-scrollbar { display: none; }
+
+.dept-nav a {
+  flex: none;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 1.05rem;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  color: var(--muted);
+  padding: 6px 14px;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+.dept-nav a:hover { color: var(--text); border-color: var(--line); }
+
+.dept-nav a.active {
+  color: var(--active-text);
+  background: var(--gold);
+}
+
+/* ---------- Department page ---------- */
+.back {
+  display: inline-block;
+  margin-bottom: 28px;
+  font-size: 0.8rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--muted);
+  transition: color 0.2s ease;
+}
+
+.back:hover { color: var(--accent); }
+
+.dept-hero {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: end;
+  gap: 28px;
+  margin-bottom: 36px;
+}
+
+.dept-hero-code {
+  margin: 0;
+  font-family: var(--display);
+  font-weight: 900;
+  font-size: clamp(4.5rem, 14vw, 10rem);
+  line-height: 0.8;
+  background: linear-gradient(180deg, var(--text) 30%, var(--accent));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.dept-hero-name {
+  margin: 14px 0 0;
+  color: var(--muted);
+  font-size: 1.05rem;
+  max-width: 40ch;
+}
+
+.total-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  padding: 18px 26px;
+  border: 1px solid rgba(var(--gold-rgb), 0.35);
+  background: linear-gradient(160deg, rgba(var(--gold-rgb), 0.12), rgba(var(--ink-rgb), 0.6));
+  border-radius: 6px;
+  min-width: 210px;
+}
+
+.total-label,
+.total-meta {
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.total-value {
+  font-family: var(--display);
+  font-weight: 900;
+  font-size: 4.2rem;
+  line-height: 1;
+  color: var(--gold);
+  font-variant-numeric: tabular-nums;
+  margin: 4px 0;
+}
+
+/* ---------- Score table ---------- */
+.board {
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--panel);
+  backdrop-filter: blur(6px);
+  overflow: hidden;
+}
+
+.score-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.score-table th {
+  text-align: left;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 0.9rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--line);
+  background: rgba(var(--ink-rgb), 0.55);
+}
+
+.score-table th:last-child,
+.score-table td.score { text-align: right; }
+
+.score-table tbody tr {
+  opacity: 0;
+  animation: rise 0.5s cubic-bezier(.2,.7,.2,1) forwards;
+  animation-delay: calc(var(--i) * 35ms);
+  transition: background 0.2s ease;
+}
+
+.score-table tbody tr:nth-child(even) { background: rgba(255, 255, 255, 0.02); }
+
+.score-table tbody tr:hover { background: rgba(var(--primary-rgb), 0.2); }
+
+.score-table td {
+  padding: 14px 24px;
+  border-bottom: 1px solid rgba(var(--line-rgb), 0.08);
+}
+
+.score-table tbody tr:last-child td { border-bottom: 0; }
+
+.score-table td.sport {
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  position: relative;
+}
+
+.score-table td.score {
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: 1.6rem;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  color: var(--score-muted);
+}
+
+.score-table tr.has-points td.score { color: var(--gold); }
+
+.score-table tr.has-points td.sport::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 18%;
+  bottom: 18%;
+  width: 3px;
+  background: var(--gold);
+  border-radius: 2px;
+}
+
+/* ---------- Footer ---------- */
+.footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 22px clamp(18px, 5vw, 64px);
+  border-top: 1px solid var(--line);
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* ---------- Department themes ----------
+   Each block re-colors a department's page (via the active nav tab)
+   and its card on the home page. Home page keeps the default maroon/gold. */
+
+/* CET - dark blue */
+body:has(.dept-nav a.active[href="cetdata.html"]),
+.dept-card[href="cetdata.html"] {
+  --ink: #040817; --ink-rgb: 4, 8, 23;
+  --panel: rgba(14, 30, 92, 0.6);
+  --line: rgba(120, 160, 255, 0.2); --line-rgb: 120, 160, 255;
+  --primary: #1f4fd8; --primary-rgb: 31, 79, 216;
+  --accent: #8fb4ff; --accent-rgb: 143, 180, 255;
+  --gold: #5b8cff; --gold-rgb: 91, 140, 255;
+  --text: #e8eeff; --muted: #93a4d6;
+}
+
+/* CTE - light red */
+body:has(.dept-nav a.active[href="ctedata.html"]),
+.dept-card[href="ctedata.html"] {
+  --ink: #1a0809; --ink-rgb: 26, 8, 9;
+  --panel: rgba(120, 40, 44, 0.5);
+  --line: rgba(255, 160, 160, 0.2); --line-rgb: 255, 160, 160;
+  --primary: #ff6b6b; --primary-rgb: 255, 107, 107;
+  --accent: #ffb3b3; --accent-rgb: 255, 179, 179;
+  --gold: #ff8a8a; --gold-rgb: 255, 138, 138;
+  --text: #fff3f3; --muted: #d9a9a9;
+}
+
+/* CME - light blue */
+body:has(.dept-nav a.active[href="cmedata.html"]),
+.dept-card[href="cmedata.html"] {
+  --ink: #06131c; --ink-rgb: 6, 19, 28;
+  --panel: rgba(20, 80, 110, 0.5);
+  --line: rgba(150, 215, 255, 0.2); --line-rgb: 150, 215, 255;
+  --primary: #4fc3f7; --primary-rgb: 79, 195, 247;
+  --accent: #b3e5fc; --accent-rgb: 179, 229, 252;
+  --gold: #7dd3fc; --gold-rgb: 125, 211, 252;
+  --text: #eefaff; --muted: #9fc4d6;
+}
+
+/* CAHSS - green */
+body:has(.dept-nav a.active[href="cahssdata.html"]),
+.dept-card[href="cahssdata.html"] {
+  --ink: #04120a; --ink-rgb: 4, 18, 10;
+  --panel: rgba(18, 80, 40, 0.5);
+  --line: rgba(140, 230, 170, 0.2); --line-rgb: 140, 230, 170;
+  --primary: #2fb457; --primary-rgb: 47, 180, 87;
+  --accent: #a7f0b8; --accent-rgb: 167, 240, 184;
+  --gold: #5fd97e; --gold-rgb: 95, 217, 126;
+  --text: #effff3; --muted: #9cc8a8;
+}
+
+/* CICS - teal */
+body:has(.dept-nav a.active[href="cicsdata.html"]),
+.dept-card[href="cicsdata.html"] {
+  --ink: #041412; --ink-rgb: 4, 20, 18;
+  --panel: rgba(10, 84, 78, 0.5);
+  --line: rgba(130, 230, 215, 0.2); --line-rgb: 130, 230, 215;
+  --primary: #14b8a6; --primary-rgb: 20, 184, 166;
+  --accent: #99f6e4; --accent-rgb: 153, 246, 228;
+  --gold: #2dd4bf; --gold-rgb: 45, 212, 191;
+  --text: #eefffc; --muted: #94c9c2;
+}
+
+/* ITE - yellow */
+body:has(.dept-nav a.active[href="itedata.html"]),
+.dept-card[href="itedata.html"] {
+  --ink: #151004; --ink-rgb: 21, 16, 4;
+  --panel: rgba(100, 80, 10, 0.5);
+  --line: rgba(255, 230, 130, 0.2); --line-rgb: 255, 230, 130;
+  --primary: #f5c518; --primary-rgb: 245, 197, 24;
+  --accent: #fff0a0; --accent-rgb: 255, 240, 160;
+  --gold: #ffd83a; --gold-rgb: 255, 216, 58;
+  --text: #fffbea; --muted: #cfc08a;
+}
+
+/* CPES - dark red */
+body:has(.dept-nav a.active[href="cpesdata.html"]),
+.dept-card[href="cpesdata.html"] {
+  --ink: #130506; --ink-rgb: 19, 5, 6;
+  --panel: rgba(80, 10, 18, 0.6);
+  --line: rgba(255, 130, 130, 0.2); --line-rgb: 255, 130, 130;
+  --primary: #9b111e; --primary-rgb: 155, 17, 30;
+  --accent: #ff9a8f; --accent-rgb: 255, 154, 143;
+  --gold: #e5484d; --gold-rgb: 229, 72, 77;
+  --text: #fff0ef; --muted: #c99a98;
+}
+
+/* SBA - dark green */
+body:has(.dept-nav a.active[href="sbadata.html"]),
+.dept-card[href="sbadata.html"] {
+  --ink: #06130a; --ink-rgb: 6, 19, 10;
+  --panel: rgba(24, 78, 38, 0.52);
+  --line: rgba(148, 220, 158, 0.2); --line-rgb: 148, 220, 158;
+  --primary: #38a45a; --primary-rgb: 56, 164, 90;
+  --accent: #a7f0b8; --accent-rgb: 167, 240, 184;
+  --gold: #5fd97e; --gold-rgb: 95, 217, 126;
+  --text: #effff3; --muted: #9cc8a8;
+}
+
+/* SHSL - dark blue */
+body:has(.dept-nav a.active[href="shsldata.html"]),
+.dept-card[href="shsldata.html"] {
+  --ink: #071522; --ink-rgb: 7, 21, 34;
+  --panel: rgba(18, 76, 112, 0.52);
+  --line: rgba(135, 207, 255, 0.2); --line-rgb: 135, 207, 255;
+  --primary: #35a9e8; --primary-rgb: 53, 169, 232;
+  --accent: #a9ddff; --accent-rgb: 169, 221, 255;
+  --gold: #55b8ee; --gold-rgb: 85, 184, 238;
+  --text: #eef8ff; --muted: #9bbbd0;
+}
+
+/* EPDU - dark purple */
+body:has(.dept-nav a.active[href="epdudata.html"]),
+.dept-card[href="epdudata.html"] {
+  --ink: #10091b; --ink-rgb: 16, 9, 27;
+  --panel: rgba(58, 35, 89, 0.58);
+  --line: rgba(194, 157, 255, 0.2); --line-rgb: 194, 157, 255;
+  --primary: #7c3aed; --primary-rgb: 124, 58, 237;
+  --accent: #d8b4fe; --accent-rgb: 216, 180, 254;
+  --gold: #a78bfa; --gold-rgb: 167, 139, 250;
+  --text: #f4edff; --muted: #b9a7d1;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 640px) {
+  .live { display: none; }
+  .brand img { width: 64px; }
+  .dept-hero { grid-template-columns: 1fr; }
+  .total-card { align-items: flex-start; }
+  .score-table th, .score-table td { padding-left: 16px; padding-right: 16px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+  .dept-grid li, .score-table tbody tr { opacity: 1; }
+}
+
+/* ---------- Match history ---------- */
+.match-day {
+  margin: 0;
+  padding: 16px 24px;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--accent);
+  border-bottom: 1px solid var(--line);
+}
+
+.match-table td.sport { font-size: 1.1rem; }
+
+.match-table td.winner {
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: 1.4rem;
+  letter-spacing: 0.06em;
+}
+
+.match-table td.match { font-weight: 600; letter-spacing: 0.06em; }
+
+.match-table th:nth-child(n+3),
+.match-table td.winner,
+.match-table td.result { text-align: right; }
+
+.badge {
+  display: inline-block;
+  min-width: 64px;
+  padding: 4px 12px;
+  text-align: center;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+}
+
+.badge.win {
+  color: var(--ink);
+  background: linear-gradient(180deg, #e6f4ff, var(--gold));
+  border-color: var(--gold);
+  box-shadow: 0 0 10px rgba(var(--gold-rgb), 0.35);
+}
+.badge.loss { color: var(--muted); }
